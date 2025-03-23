@@ -1,0 +1,5 @@
+SELECT Name
+FROM Departments
+UNION ALL
+SELECT Name
+FROM Wards;
