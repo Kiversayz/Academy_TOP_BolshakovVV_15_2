@@ -2,13 +2,16 @@ import pyodbc
 import json
 from decimal import Decimal
 
+
 class DatabaseManager:
     """ Класс для полключения к БД и получения ответов на отправленные запросы, с возможностью сохранять в JSON файл. """
+
     def __init__(self, server, login, password, driver="ODBC Driver 17 for SQL Server"):
-        self.server = server #Сервер на пример "ULTRASUPERPC\SQLEXPRESS"
-        self.login = login #Логин из Ms SQL для авторизации, желательно с правами dbo
-        self.password = password #Пароль от логина
-        self.driver = driver #Указать соответсвующий драйвер для подключения на пример на ODBC Driver 18 for SQL Server
+        self.server = server  # Сервер на пример "ULTRASUPERPC\SQLEXPRESS"
+        self.login = login  # Логин из Ms SQL для авторизации, желательно с правами dbo
+        self.password = password  # Пароль от логина
+        # Указать соответсвующий драйвер для подключения на пример на ODBC Driver 18 for SQL Server
+        self.driver = driver
 
     def connection_string(self, database):
         """ подготовленная строка для подключения к БД """
@@ -22,13 +25,13 @@ class DatabaseManager:
 
     def execute_query(self, query, database, autocommit=False):
         """ Оправка запроса в БД для получения данных """
-        conn_str = self.connection_string(database=database)
+        conn_str = self.connection_string(database)
         print("Строка подключения:", conn_str)
         try:
-            with pyodbc.connect(connstring=conn_str, autocommit=autocommit) as conn:
+            with pyodbc.connect(conn_str, autocommit=autocommit) as conn:
                 cursor = conn.cursor()
                 print(f"Выполнение запроса: {query}")
-                cursor.execute(sql=query)
+                cursor.execute(query)
 
                 if "SELECT" in query.upper():
                     rows = cursor.fetchall()
@@ -61,20 +64,21 @@ class DatabaseManager:
         try:
             with open(file=file_path, mode='r', encoding='utf-8') as file:
                 sql_script = file.read()
-            
+
             # Разделение скрипта на отдельные запросы
             queries = sql_script.split(sep=';')
             results = []
-            
+
             for query in queries:
                 query = query.strip()
                 if query:
-                    result = self.execute_query(query=query, database=database, autocommit=autocommit)
+                    result = self.execute_query(
+                        query=query, database=database, autocommit=autocommit)
                     if result is not None:
                         results.append(result)
-            
+
             return results
-        
+
         except FileNotFoundError:
             print(f"Файл {file_path} не найден.")
             return None
@@ -88,11 +92,13 @@ class DatabaseManager:
             """ Проверка тип данных на Decimal и перевод в тип float во измбежание ошибки при сериализации в json """
             if isinstance(obj, Decimal):
                 return float(obj)
-            raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
+            raise TypeError(
+                f"Object of type {obj.__class__.__name__} is not JSON serializable")
 
         try:
             with open(file=file_path, mode='w', encoding='utf-8') as file:
-                json.dump(obj=results, fp=file, ensure_ascii=False, indent=4, default=decimal_default)
+                json.dump(obj=results, fp=file, ensure_ascii=False,
+                          indent=4, default=decimal_default)
             print(f"Результаты записаны в файл: {file_path}")
         except Exception as e:
             print(f"Ошибка при записи результатов в файл: {e}")
