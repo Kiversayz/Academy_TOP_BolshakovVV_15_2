@@ -1,0 +1,40 @@
+[
+    [
+        {
+            "Name": "Cardiology"
+        },
+        {
+            "Name": "Gastroenterology"
+        },
+        {
+            "Name": "General Surgery"
+        },
+        {
+            "Name": "Microbiology"
+        },
+        {
+            "Name": "Neurology"
+        },
+        {
+            "Name": "Oncology"
+        },
+        {
+            "Name": "Ward A"
+        },
+        {
+            "Name": "Ward B"
+        },
+        {
+            "Name": "Ward C"
+        },
+        {
+            "Name": "Ward D"
+        },
+        {
+            "Name": "Ward E"
+        },
+        {
+            "Name": "Ward F"
+        }
+    ]
+]

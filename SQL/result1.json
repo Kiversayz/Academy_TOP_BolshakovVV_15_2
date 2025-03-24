@@ -1,0 +1,24 @@
+[
+    [
+        {
+            "DepartmentName": "Cardiology"
+        }
+    ],
+    [
+        {
+            "SponsorName": "MediCorp"
+        },
+        {
+            "SponsorName": "HealthFund"
+        },
+        {
+            "SponsorName": "LifeCare"
+        },
+        {
+            "SponsorName": "WellnessGroup"
+        },
+        {
+            "SponsorName": "SafeMed"
+        }
+    ]
+]
